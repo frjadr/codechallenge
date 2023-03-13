@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerServiceReporting.WorkerService", "PowerServiceReporting.WorkerService\PowerServiceReporting.WorkerService.csproj", "{F67DDB80-FBB2-48C2-A3E8-4843278C5F4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerServiceReporting.WorkerService", "PowerServiceReporting.WorkerService\PowerServiceReporting.WorkerService.csproj", "{F67DDB80-FBB2-48C2-A3E8-4843278C5F4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerServiceReporting.ApplicationCore", "PowerServiceReporting.ApplicationCore\PowerServiceReporting.ApplicationCore.csproj", "{C52CAAED-3383-42D0-95EB-9274FEB1F1AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerServiceReporting.Infrastructure", "PowerServiceReporting.Infrastructure\PowerServiceReporting.Infrastructure.csproj", "{3E696CB2-E548-4DE9-A1B8-98248D2D617E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationCore", "ApplicationCore", "{CF0BF17B-963B-4B40-A180-67F19181E955}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{515FA7E4-E325-4A8E-BF2A-FD90F3A47ADB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerService", "WorkerService", "{D357634A-4616-40CD-A4F8-6AF8B5F903AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FFCA76FA-6097-4BD0-9CB2-8FD68DBFE1FC}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\PowerService.1.0.0.nupkg = Solution Items\PowerService.1.0.0.nupkg
+		Solution Items\PowerService.dll = Solution Items\PowerService.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5EE298D3-5A03-4F1B-A0D9-D8B379F096C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +33,25 @@ Global
 		{F67DDB80-FBB2-48C2-A3E8-4843278C5F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F67DDB80-FBB2-48C2-A3E8-4843278C5F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F67DDB80-FBB2-48C2-A3E8-4843278C5F4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52CAAED-3383-42D0-95EB-9274FEB1F1AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52CAAED-3383-42D0-95EB-9274FEB1F1AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52CAAED-3383-42D0-95EB-9274FEB1F1AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52CAAED-3383-42D0-95EB-9274FEB1F1AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E696CB2-E548-4DE9-A1B8-98248D2D617E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E696CB2-E548-4DE9-A1B8-98248D2D617E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E696CB2-E548-4DE9-A1B8-98248D2D617E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E696CB2-E548-4DE9-A1B8-98248D2D617E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F67DDB80-FBB2-48C2-A3E8-4843278C5F4F} = {D357634A-4616-40CD-A4F8-6AF8B5F903AF}
+		{C52CAAED-3383-42D0-95EB-9274FEB1F1AB} = {CF0BF17B-963B-4B40-A180-67F19181E955}
+		{3E696CB2-E548-4DE9-A1B8-98248D2D617E} = {515FA7E4-E325-4A8E-BF2A-FD90F3A47ADB}
+		{CF0BF17B-963B-4B40-A180-67F19181E955} = {5EE298D3-5A03-4F1B-A0D9-D8B379F096C1}
+		{515FA7E4-E325-4A8E-BF2A-FD90F3A47ADB} = {5EE298D3-5A03-4F1B-A0D9-D8B379F096C1}
+		{D357634A-4616-40CD-A4F8-6AF8B5F903AF} = {5EE298D3-5A03-4F1B-A0D9-D8B379F096C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7289DDFC-56CE-47B3-B142-8BCF0132B959}

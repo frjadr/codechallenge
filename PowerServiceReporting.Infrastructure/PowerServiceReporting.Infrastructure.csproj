@@ -6,4 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PowerService" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PowerServiceReporting.ApplicationCore\PowerServiceReporting.ApplicationCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PowerService">
+      <HintPath>..\Solution Items\PowerService.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
