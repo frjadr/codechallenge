@@ -15,10 +15,10 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
         private System.Timers.Timer? timer;
         protected DateTimeOffset? nextOccurence;
 
-        protected BaseScheduledBackgroundService(CronExpression cronExpression, TimeZoneInfo timeZoneInfo)
+        protected BaseScheduledBackgroundService(CronExpression cronExpression, TimeZoneInfo timeZone)
         {
             this.cronExpression = cronExpression;
-            this.timeZoneInfo = timeZoneInfo;
+            this.timeZoneInfo = timeZone;
         }
 
         protected virtual async Task ScheduleJob(CancellationToken stoppingToken)

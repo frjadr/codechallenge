@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "PowerServiceReporting-Development": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "APP_ENV": "dev"
+      }
+    },
+    "PowerServiceReporting-Release": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "APP_ENV": "release"
+      }
+    },
+    "PowerServiceReporting-Production": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "APP_ENV": "prod"
+      }
+    }
+  }
+}

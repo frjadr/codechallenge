@@ -1,5 +1,6 @@
 ﻿  using Cronos;
 using PowerServiceReporting.ApplicationCore.Interfaces;
+using PowerServiceReporting.WorkerService.Configurations;
 
 namespace PowerServiceReporting.WorkerService.WorkerServices
 {
@@ -7,7 +8,7 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
     {
         private ITradesReportingService _tradesReportingService;
 
-        public TradesReportingWorkerService(ITradesReportingService tradesReportingService, CronExpression cronExpression, TimeZoneInfo timeZoneInfo) : base(cronExpression, timeZoneInfo)
+        public TradesReportingWorkerService(IScheduleConfiguration<TradesReportingWorkerService> scheduleConfiguration, ITradesReportingService tradesReportingService) : base(scheduleConfiguration.CronExpression, scheduleConfiguration.TimeZoneInfo)
         {
             _tradesReportingService = tradesReportingService;
         }
@@ -19,8 +20,8 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
                 await _tradesReportingService.HandleTradesAndExportReport(stoppingToken);
             }
             catch(Exception ex)
-            { 
-
+            {
+                Console.WriteLine($"{ex.Message} + {ex.StackTrace}");
             }
             finally 
             {
@@ -30,7 +31,7 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
 
         public override Task StartAsync(CancellationToken stoppingToken)
         {
-            return base.DoWork(stoppingToken);
+            return base.StartAsync(stoppingToken);
         }
 
         public override Task StopAsync(CancellationToken stoppingToken)
