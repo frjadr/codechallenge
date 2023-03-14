@@ -5,9 +5,9 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerServiceReporting.WorkerService", "PowerServiceReporting.WorkerService\PowerServiceReporting.WorkerService.csproj", "{F67DDB80-FBB2-48C2-A3E8-4843278C5F4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerServiceReporting.ApplicationCore", "PowerServiceReporting.ApplicationCore\PowerServiceReporting.ApplicationCore.csproj", "{C52CAAED-3383-42D0-95EB-9274FEB1F1AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerServiceReporting.ApplicationCore", "PowerServiceReporting.ApplicationCore\PowerServiceReporting.ApplicationCore.csproj", "{C52CAAED-3383-42D0-95EB-9274FEB1F1AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerServiceReporting.Infrastructure", "PowerServiceReporting.Infrastructure\PowerServiceReporting.Infrastructure.csproj", "{3E696CB2-E548-4DE9-A1B8-98248D2D617E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerServiceReporting.Infrastructure", "PowerServiceReporting.Infrastructure\PowerServiceReporting.Infrastructure.csproj", "{3E696CB2-E548-4DE9-A1B8-98248D2D617E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationCore", "ApplicationCore", "{CF0BF17B-963B-4B40-A180-67F19181E955}"
 EndProject
@@ -17,7 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerService", "WorkerServ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FFCA76FA-6097-4BD0-9CB2-8FD68DBFE1FC}"
 	ProjectSection(SolutionItems) = preProject
-		Solution Items\PowerService.1.0.0.nupkg = Solution Items\PowerService.1.0.0.nupkg
 		Solution Items\PowerService.dll = Solution Items\PowerService.dll
 	EndProjectSection
 EndProject

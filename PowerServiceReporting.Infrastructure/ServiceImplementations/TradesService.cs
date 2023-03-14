@@ -1,17 +1,37 @@
 ﻿using PowerServiceReporting.ApplicationCore.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Services;
+using PowerServiceReporting.ApplicationCore.DTOs;
+using AutoMapper;
+using PowerServiceReporting.ApplicationCore.Helpers;
 
 namespace PowerServiceReporting.Infrastructure.ServiceImplementations
 {
     public class TradesService : ITradesService
     {
-        public Task HandleTrades(CancellationToken stoppingToken)
+        private DateTime clientLocalTime;
+        private IMapper mapper;
+
+        public TradesService(IMapper mapper, DateTime clientLocalTime) 
+        { 
+            this.clientLocalTime = clientLocalTime;
+            this.mapper = mapper;
+        }
+
+        public async Task<List<PowerTradeDTO>> HandleTrades(CancellationToken stoppingToken)
         {
-            throw new NotImplementedException();
+            List<PowerTradeDTO> powerTradesDTOs = new List<PowerTradeDTO>();
+            var powerService = new PowerService();
+            try
+            {
+                var powerTrades = await powerService.GetTradesAsync(clientLocalTime);         
+                powerTradesDTOs = mapper.MapList<PowerTrade, PowerTradeDTO>(powerTrades.ToList());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message} + {ex.StackTrace}");
+            }
+
+            return powerTradesDTOs;
         }
     }
 }

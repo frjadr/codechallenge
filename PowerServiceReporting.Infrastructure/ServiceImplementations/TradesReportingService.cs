@@ -23,12 +23,12 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
         {
             try
             {
-                await _tradesHandlerService.HandleTrades(stoppingToken);
-                await _reportExportingService.HandleReportingExport(stoppingToken);
+                var powerTradeDTOs = await _tradesHandlerService.HandleTrades(stoppingToken);
+                //await _reportExportingService.HandleReportingExport(stoppingToken);
             }
             catch(Exception ex)
             {
-
+                Console.WriteLine($"{ex.Message} + {ex.StackTrace}");
             }
         }
     }

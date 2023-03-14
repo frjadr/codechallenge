@@ -39,4 +39,10 @@
     <ProjectReference Include="..\PowerServiceReporting.Infrastructure\PowerServiceReporting.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="PowerService">
+      <HintPath>..\Solution Items\PowerService.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

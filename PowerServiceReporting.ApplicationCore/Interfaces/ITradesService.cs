@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerServiceReporting.ApplicationCore.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace PowerServiceReporting.ApplicationCore.Interfaces
 {
     public interface ITradesService
     {
-        Task HandleTrades(CancellationToken stoppingToken);
+        Task<List<PowerTradeDTO>> HandleTrades(CancellationToken stoppingToken);
     }
 }
