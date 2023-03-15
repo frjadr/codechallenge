@@ -112,7 +112,6 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
                         var (localClientDateTimeWithPeriod, periodHour) = MergeDateWithPeriod(powerTrade.Date, period.Period);
                         return new PowerTradeExportDTO
                         {
-                            LocalClientTimeOriginal = powerTrade.Date,
                             LocalClientTimeWithPeriod = localClientDateTimeWithPeriod,
                             Period = periodHour,
                             Volume = period.Volume
