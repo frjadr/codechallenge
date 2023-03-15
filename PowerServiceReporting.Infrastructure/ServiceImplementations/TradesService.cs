@@ -3,6 +3,8 @@ using Services;
 using PowerServiceReporting.ApplicationCore.DTOs;
 using AutoMapper;
 using PowerServiceReporting.ApplicationCore.Helpers;
+using Serilog;
+using System.Reflection;
 
 namespace PowerServiceReporting.Infrastructure.ServiceImplementations
 {
@@ -28,7 +30,8 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
 
             return powerTradesDTOs;

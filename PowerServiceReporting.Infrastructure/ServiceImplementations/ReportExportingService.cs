@@ -1,9 +1,11 @@
 ﻿using PowerServiceReporting.ApplicationCore.DTOs;
 using PowerServiceReporting.ApplicationCore.Helpers;
 using PowerServiceReporting.ApplicationCore.Interfaces;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -28,7 +30,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             var filePath = Path.Combine(exportFilePath, $"{exportFileNamePrefix}_{clientLocalTime:yyyyMMdd_HHmm}.csv");
             try
             {
-                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportAggregated();
+                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportAggregated(clientLocalTime);
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
                     writer.WriteLine("Local Time,Volume");
@@ -37,7 +39,8 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             await Task.CompletedTask;
         }
@@ -47,7 +50,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             var filePath = Path.Combine(exportFilePath, $"{exportFileNamePrefix}_{clientLocalTime:yyyyMMdd_HHmm}_NONAGGREGATED.csv");
             try
             {
-                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportNonAggregated();
+                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportNonAggregated(clientLocalTime);
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
                     writer.WriteLine("Local Time,Volume");
@@ -56,7 +59,8 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             await Task.CompletedTask;
         }

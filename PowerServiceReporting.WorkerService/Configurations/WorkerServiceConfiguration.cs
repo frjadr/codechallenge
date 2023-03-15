@@ -1,8 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PowerServiceReporting.ApplicationCore.Helpers;
+using PowerServiceReporting.WorkerService.Configurations.Scheduling;
 using PowerServiceReporting.WorkerService.WorkerServices;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,7 +36,8 @@ namespace PowerServiceReporting.WorkerService.Configurations
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
+                Log.Fatal($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{nameof(Program)}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed with Exception:\n    -Message: {ex.Message}\n    -StackTrace: {ex.StackTrace}");
             }
 
             return services;

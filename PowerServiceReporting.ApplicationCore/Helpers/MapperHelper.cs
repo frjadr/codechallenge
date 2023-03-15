@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using PowerServiceReporting.ApplicationCore.DTOs;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +26,7 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             return (mergeDate, periodHour);
         }
 
-        public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExport(this List<PowerTradeDTO> powerTrades)
+        public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExport(this List<PowerTradeDTO> powerTrades, DateTime clientLocalTime)
         {
             var powerTradesExport = new List<PowerTradeExportDTO>();
             try
@@ -61,12 +63,13 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             return powerTradesExport;
         }
 
-        public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExportAggregated(this List<PowerTradeDTO> powerTrades)
+        public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExportAggregated(this List<PowerTradeDTO> powerTrades, DateTime clientLocalTime)
         {
             var powerTradesExport = new List<PowerTradeExportDTO>();
             try
@@ -101,12 +104,13 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}{ex.StackTrace}");
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             return powerTradesExport;
         }
 
-        public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExportNonAggregated(this List<PowerTradeDTO> powerTrades)
+        public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExportNonAggregated(this List<PowerTradeDTO> powerTrades, DateTime clientLocalTime)
         {
             var powerTradesExport = new List<PowerTradeExportDTO>();
             try
@@ -128,7 +132,8 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}{ex.StackTrace}");
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             return powerTradesExport;
         }

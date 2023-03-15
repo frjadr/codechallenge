@@ -1,8 +1,11 @@
 ﻿using Cronos;
 using Microsoft.Extensions.Hosting;
+using PowerServiceReporting.ApplicationCore.Helpers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,34 +17,44 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
         private readonly TimeZoneInfo timeZoneInfo;
         private System.Timers.Timer? timer;
         protected DateTimeOffset? nextOccurence;
+        protected DateTime clientLocalTime;
 
-        protected BaseScheduledBackgroundService(CronExpression cronExpression, TimeZoneInfo timeZone)
+        protected BaseScheduledBackgroundService(CronExpression cronExpression, TimeZoneInfo timeZone, DateTime clientLocalTime)
         {
             this.cronExpression = cronExpression;
             this.timeZoneInfo = timeZone;
+            this.clientLocalTime = clientLocalTime;
         }
 
         protected virtual async Task ScheduleJob(CancellationToken stoppingToken)
         {
-            nextOccurence = cronExpression.GetNextOccurrence(DateTimeOffset.Now, timeZoneInfo);
-            if (nextOccurence.HasValue)
+            try
             {
-                var delay = nextOccurence.Value - DateTimeOffset.Now;
-                if (delay.TotalMilliseconds <= 0)
-                    await ScheduleJob(stoppingToken);
-
-                timer = new System.Timers.Timer(delay.TotalMilliseconds);
-                timer.Elapsed += async (sender, elapsedEventArgs) =>
+                nextOccurence = cronExpression.GetNextOccurrence(DateTimeOffset.Now, timeZoneInfo);
+                if (nextOccurence.HasValue)
                 {
-                    timer.Dispose();
-                    timer = null;
-
-                    if (!stoppingToken.IsCancellationRequested)
-                        await DoWork(stoppingToken);
-                    if (!stoppingToken.IsCancellationRequested)
+                    var delay = nextOccurence.Value - DateTimeOffset.Now;
+                    if (delay.TotalMilliseconds <= 0)
                         await ScheduleJob(stoppingToken);
-                };
-                timer.Start();        
+
+                    timer = new System.Timers.Timer(delay.TotalMilliseconds);
+                    timer.Elapsed += async (sender, elapsedEventArgs) =>
+                    {
+                        timer.Dispose();
+                        timer = null;
+
+                        if (!stoppingToken.IsCancellationRequested)
+                            await DoWork(stoppingToken);
+                        if (!stoppingToken.IsCancellationRequested)
+                            await ScheduleJob(stoppingToken);
+                    };
+                    timer.Start();        
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
 
             await Task.CompletedTask;

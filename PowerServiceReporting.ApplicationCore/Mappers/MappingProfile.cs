@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using PowerServiceReporting.ApplicationCore.DTOs;
+using PowerServiceReporting.ApplicationCore.Helpers;
+using Serilog;
 using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +24,8 @@ namespace PowerServiceReporting.ApplicationCore.Mappers
             }
             catch(Exception ex)
             {
-                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
+                Log.Fatal($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                $" - failed at {DateTime.Now} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
         }
     }
