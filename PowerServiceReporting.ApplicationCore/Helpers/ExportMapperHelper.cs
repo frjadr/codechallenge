@@ -20,49 +20,6 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             return (mergeDate, periodHour);
         }
 
-        public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExport(this List<PowerTradeDTO> powerTrades, DateTime clientLocalTime)
-        {
-            var powerTradesExport = new List<PowerTradeExportDTO>();
-            try
-            {
-                powerTradesExport = powerTrades.SelectMany(powerTrade =>
-                {
-                    return powerTrade.Periods.Select(period =>
-                    {
-                        var (mergeDate, periodHour) = MergeDateWithPeriod(powerTrade.Date, period.Period);
-                        return new PowerTradeExportDTO
-                        {
-                            LocalClientTimeOriginal = powerTrade.Date,
-                            LocalClientTimeWithPeriod = mergeDate,
-                            Period = periodHour,
-                            Volume = period.Volume
-                        };
-                    });
-                })
-                .GroupBy(pt => new { pt.LocalClientTimeWithPeriod.Date, pt.Period })
-                .Select(group =>
-                {
-                    var first = group.First();
-                    return new PowerTradeExportDTO
-                    {
-                        LocalClientTimeOriginal = first.LocalClientTimeOriginal,
-                        LocalClientTimeWithPeriod = first.LocalClientTimeWithPeriod,
-                        Period = first.Period,
-                        Volume = group.Sum(pt => pt.Volume)
-                    };
-                })
-                .OrderBy(pt => pt.LocalClientTimeWithPeriod)
-                .Where(pt => pt.LocalClientTimeOriginal.Date == pt.LocalClientTimeWithPeriod.Date)
-                .ToList();
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(ExportMapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
-            }
-            return powerTradesExport;
-        }
-
         public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExportAggregated(this List<PowerTradeDTO> powerTrades, DateTime clientLocalTime)
         {
             var powerTradesExport = new List<PowerTradeExportDTO>();
