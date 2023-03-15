@@ -28,7 +28,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message} + {ex.StackTrace}");
+                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
             }
 
             return powerTradesDTOs;

@@ -21,7 +21,7 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
             }
             catch(Exception ex)
             {
-                Console.WriteLine($"{ex.Message} + {ex.StackTrace}");
+                Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
             }
             finally 
             {

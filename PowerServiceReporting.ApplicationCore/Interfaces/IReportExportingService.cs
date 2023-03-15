@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerServiceReporting.ApplicationCore.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace PowerServiceReporting.ApplicationCore.Interfaces
 {
     public interface IReportExportingService
     {
-        Task HandleReportingExport(CancellationToken stoppingToken);
+        Task HandleReportingExportAggregated(List<PowerTradeDTO> powerTrades, CancellationToken stoppingToken);
+        Task HandleReportingExportNonAggregated(List<PowerTradeDTO> powerTrades, CancellationToken stoppingToken);
     }
 }

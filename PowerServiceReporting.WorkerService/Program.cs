@@ -30,8 +30,6 @@ try
 
         #region Client local time
         var clientLocalTime = WorkerServiceConfiguration.LocalClientTime(tradesReportingWorkerServiceSettings.TimeZoneId);
-        Console.WriteLine($"Local time: {DateTime.Now}");
-        Console.WriteLine($"Client local time: {clientLocalTime}");
         #endregion
 
         #region AutoMapper
@@ -45,24 +43,27 @@ try
 
         #region services DI
         services.AddTransient<ITradesReportingService, TradesReportingService>(trs =>
-            new TradesReportingService(new TradesService(autoMapper, clientLocalTime), new ReportExportingService()));
+            new TradesReportingService(new TradesService(autoMapper, clientLocalTime), new ReportExportingService(tradesReportingWorkerServiceSettings.ExportFilePath, tradesReportingWorkerServiceSettings.ExportFileNamePrefix, clientLocalTime)));
         #endregion
+       
+        var environment = Environment.GetEnvironmentVariable(ConfigurationConstants.EnvironmentVariable);
+        var timeZoneInfo = environment == "prod" ? TimeZoneInfo.FindSystemTimeZoneById(tradesReportingWorkerServiceSettings.TimeZoneId) : TimeZoneInfo.Local;
 
         #region schueduled Worker Service registration
         services.AddCronScheduledHostedWorkerService<TradesReportingWorkerService>(csws =>
         {
-            //csws.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(tradesReportingWorkerServiceSettings.TimeZoneId);
-            csws.TimeZoneInfo = TimeZoneInfo.Local;
+            csws.TimeZoneInfo = timeZoneInfo;
             csws.CronExpression = CronExpression.Parse(tradesReportingWorkerServiceSettings.CronExpression, CronFormat.IncludeSeconds);
         });
         #endregion
     });
 
+    hostBuilder.UseWindowsService();
     hostBuilder.Build().Run();
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"{ex.Message} + {ex.StackTrace}");
+    Console.WriteLine($"{ex.Message}\n{ex.StackTrace}");
 }
 finally
 {
