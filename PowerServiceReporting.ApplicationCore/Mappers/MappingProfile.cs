@@ -7,9 +7,12 @@ using System.Reflection;
 
 namespace PowerServiceReporting.ApplicationCore.Mappers
 {
+    /// <summary>
+    /// AutoMapper class used for creating maps, matching classes and members for mappings.
+    /// </summary>
     public class MappingProfile : Profile
     {
-        public MappingProfile()
+        public MappingProfile(DateTime clientLocalTime)
         {
             try
             {
@@ -20,7 +23,7 @@ namespace PowerServiceReporting.ApplicationCore.Mappers
             catch(Exception ex)
             {
                 Log.Fatal($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                $" - failed at {DateTime.Now} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
+                $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
         }
     }

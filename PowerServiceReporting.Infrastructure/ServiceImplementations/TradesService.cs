@@ -8,6 +8,9 @@ using System.Reflection;
 
 namespace PowerServiceReporting.Infrastructure.ServiceImplementations
 {
+    /// <summary>
+    /// Class for trades fetching and mapping.
+    /// </summary>
     public class TradesService : ITradesService
     {
         private DateTime clientLocalTime;
@@ -19,6 +22,11 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Handles randomly generated trade data from PowerService and maps them to DTO.
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         public async Task<List<PowerTradeDTO>> HandleTrades(CancellationToken stoppingToken)
         {
             List<PowerTradeDTO> powerTradesDTOs = new List<PowerTradeDTO>();

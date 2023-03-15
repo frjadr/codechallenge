@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace PowerServiceReporting.ApplicationCore.DTOs
 {
+    /// <summary>
+    /// PowerTradeService response DTO model.
+    /// </summary>
     public class PowerTradeDTO
     {
         public DateTime Date { get; set; }

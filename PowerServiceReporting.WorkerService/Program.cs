@@ -20,8 +20,11 @@ try
     var hostBuilder = Host.CreateDefaultBuilder(args);
     hostBuilder.ConfigureAppConfiguration(configuration =>
     {
+        // environment variable add
         configuration.AddEnvironmentVariables();
+        // appsettings.json add
         configuration.AddJsonFile(ConfigurationConstants.AppSettingsJson, optional: false, reloadOnChange: false);
+        // appsettings{env}.json add based on environment variable
         configuration.AddJsonFile($"{ConfigurationConstants.AppSettingsDot}{Environment.GetEnvironmentVariable(ConfigurationConstants.EnvironmentVariable)}{ConfigurationConstants.DotJson}", optional: false, reloadOnChange: false);
     });
 
@@ -35,22 +38,21 @@ try
         hostingContext.Configuration.GetSection(nameof(TradesReportingWorkerServiceSettings)).Bind(tradesReportingWorkerServiceSettings);
         #endregion
 
-        // Client local time
+        // Clients local DateTime
         var clientLocalTime = WorkerServiceConfiguration.LocalClientTime(tradesReportingWorkerServiceSettings.TimeZoneId);
 
         #region AutoMapper
         var mappingConfig = new MapperConfiguration(mc =>
         {
-            mc.AddProfile(new MappingProfile());
+            mc.AddProfile(new MappingProfile(clientLocalTime));
         });
         IMapper autoMapper = mappingConfig.CreateMapper();
         services.AddSingleton(autoMapper);
         #endregion
 
-        #region services DI
+        // services DI
         services.AddTransient<ITradesReportingService, TradesReportingService>(trs =>
             new TradesReportingService(new TradesService(autoMapper, clientLocalTime), new ReportExportingService(tradesReportingWorkerServiceSettings.ExportFilePath, tradesReportingWorkerServiceSettings.ExportFileNamePrefix, clientLocalTime), clientLocalTime));
-        #endregion
        
         // Time Zone Info for scheduling depends on environment
         var environment = Environment.GetEnvironmentVariable(ConfigurationConstants.EnvironmentVariable);

@@ -4,6 +4,9 @@ using Serilog;
 
 namespace PowerServiceReporting.WorkerService.Configurations.Logging
 {
+    /// <summary>
+    /// Serilog configurator.
+    /// </summary>
     public class SerilogLoggingConfiguration
     {
         public static void ConfigureSerilogLogging(IConfiguration configuration)

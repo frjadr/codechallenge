@@ -7,9 +7,19 @@ using System.Reflection;
 
 namespace PowerServiceReporting.WorkerService.Configurations
 {
+    /// <summary>
+    /// Scheduled worker service configuration class.
+    /// </summary>
     public static class WorkerServiceConfiguration
     {
-
+        /// <summary>
+        /// Adds schedule configuration and hosted service to service collection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static IServiceCollection AddCronScheduledHostedWorkerService<T>(this IServiceCollection services, Action<IScheduleConfiguration<T>> options) where T : BaseScheduledBackgroundService
         {
             try
@@ -38,6 +48,11 @@ namespace PowerServiceReporting.WorkerService.Configurations
             return services;
         }
 
+        /// <summary>
+        /// Gets clients Local DateTime by timezoneId.
+        /// </summary>
+        /// <param name="timeZoneId"></param>
+        /// <returns></returns>
         public static DateTime LocalClientTime(string timeZoneId)
         {
             Console.WriteLine($"Server time: {DateTime.Now}");

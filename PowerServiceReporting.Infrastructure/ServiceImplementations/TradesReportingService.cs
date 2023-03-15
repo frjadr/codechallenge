@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace PowerServiceReporting.Infrastructure.ServiceImplementations
 {
+    /// <summary>
+    /// Top lvl business logic class used by Worker Service.
+    /// </summary>
     public class TradesReportingService : ITradesReportingService
     {
         private ITradesService tradesHandlerService;
@@ -18,13 +21,18 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             this.clientLocalTime = clientLocalTime;
         }
 
+        /// <summary>
+        /// Handles trade data handlers and csv export handlers.
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         public async Task HandleTradesAndExportReport(CancellationToken stoppingToken)
         {
             try
             {
                 var powerTradeDTOs = await tradesHandlerService.HandleTrades(stoppingToken);
                 await reportExportingService.HandleReportingExportAggregated(powerTradeDTOs, stoppingToken);
-                //await _reportExportingService.HandleReportingExportNonAggregated(powerTradeDTOs, stoppingToken);
+                await reportExportingService.HandleReportingExportNonAggregated(powerTradeDTOs, stoppingToken);
             }
             catch(Exception ex)
             {

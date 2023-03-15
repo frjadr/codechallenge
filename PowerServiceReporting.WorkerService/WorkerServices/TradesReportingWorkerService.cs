@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace PowerServiceReporting.WorkerService.WorkerServices
 {
+    /// <summary>
+    /// Class that exposes to operating system DoWork (triggers busines logic handle), StartAsync and StopAsync, methods for service activity handling.
+    /// </summary>
     public class TradesReportingWorkerService : BaseScheduledBackgroundService
     {
         private ITradesReportingService tradesReportingService;
@@ -17,6 +20,11 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
             this.clientLocalTime = scheduleConfiguration.ClientLocalTime;
         }
 
+        /// <summary>
+        /// DoWork override that gets triggered by schedule and calls business logic
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         public override async Task DoWork(CancellationToken stoppingToken)
         {
             try
@@ -35,11 +43,21 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
             }
         }
 
+        /// <summary>
+        /// DoWork override gets triggered by service start
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         public override Task StartAsync(CancellationToken stoppingToken)
         {
             return base.StartAsync(stoppingToken);
         }
 
+        /// <summary>
+        /// DoWork override gets triggered by service stop
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         public override Task StopAsync(CancellationToken stoppingToken)
         {
             return base.StopAsync(stoppingToken);

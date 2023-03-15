@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace PowerServiceReporting.WorkerService.WorkerServices
 {
+    /// <summary>
+    /// Class that inherents BackgroundService (hosted service base class) and handles scheduling.
+    /// </summary>
     public abstract class BaseScheduledBackgroundService : BackgroundService
     {
         private readonly CronExpression cronExpression;
@@ -26,6 +29,11 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
             this.clientLocalTime = clientLocalTime;
         }
 
+        /// <summary>
+        /// ScheduleJob method that handles schedule and timing based on Cron expression from config 
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         protected virtual async Task ScheduleJob(CancellationToken stoppingToken)
         {
             try
