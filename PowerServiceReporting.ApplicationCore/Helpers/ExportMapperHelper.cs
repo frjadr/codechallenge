@@ -1,16 +1,10 @@
-﻿using AutoMapper;
-using PowerServiceReporting.ApplicationCore.DTOs;
+﻿using PowerServiceReporting.ApplicationCore.DTOs;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerServiceReporting.ApplicationCore.Helpers
 {
-    public static class MapperHelper
+    public static class ExportMapperHelper
     {
         private static readonly Dictionary<int, int> PeriodHourMap = new Dictionary<int, int>
         {
@@ -63,7 +57,7 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             }
             catch (Exception ex)
             {
-                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(ExportMapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
                     $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             return powerTradesExport;
@@ -104,7 +98,7 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             }
             catch (Exception ex)
             {
-                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(ExportMapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
                     $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             return powerTradesExport;
@@ -132,15 +126,10 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
             }
             catch (Exception ex)
             {
-                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(ExportMapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
                     $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             return powerTradesExport;
-        }
-
-        public static List<TDestination> MapList<TSource, TDestination>(this IMapper mapper, List<TSource> source)
-        {
-            return source.Select(x => mapper.Map<TDestination>(x)).ToList();
         }
     }
 }

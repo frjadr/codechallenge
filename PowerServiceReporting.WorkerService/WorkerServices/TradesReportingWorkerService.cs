@@ -1,5 +1,4 @@
-﻿using Cronos;
-using PowerServiceReporting.ApplicationCore.Helpers;
+﻿using PowerServiceReporting.ApplicationCore.Helpers;
 using PowerServiceReporting.ApplicationCore.Interfaces;
 using PowerServiceReporting.WorkerService.Configurations.Scheduling;
 using Serilog;

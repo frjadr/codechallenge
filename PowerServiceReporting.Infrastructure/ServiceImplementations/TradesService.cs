@@ -30,7 +30,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             }
             catch (Exception ex)
             {
-                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(MapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
+                Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(ExportMapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
                     $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
 

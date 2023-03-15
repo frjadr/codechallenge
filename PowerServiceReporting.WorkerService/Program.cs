@@ -9,7 +9,6 @@ using PowerServiceReporting.ApplicationCore.Interfaces;
 using PowerServiceReporting.Infrastructure.ServiceImplementations;
 using PowerServiceReporting.WorkerService.Configurations;
 using PowerServiceReporting.WorkerService.WorkerServices;
-using System;
 using PowerServiceReporting.ApplicationCore.Mappers;
 using System.Reflection;
 using PowerServiceReporting.ApplicationCore.Helpers;

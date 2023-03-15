@@ -3,12 +3,7 @@ using PowerServiceReporting.ApplicationCore.Helpers;
 using PowerServiceReporting.WorkerService.Configurations.Scheduling;
 using PowerServiceReporting.WorkerService.WorkerServices;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerServiceReporting.WorkerService.Configurations
 {
