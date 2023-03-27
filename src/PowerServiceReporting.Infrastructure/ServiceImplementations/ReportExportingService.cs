@@ -11,15 +11,15 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
     /// </summary>
     public class ReportExportingService : IReportExportingService
     {
-        private string exportFilePath { get; set; }
-        private string exportFileNamePrefix { get; set; }
-        private DateTime clientLocalTime { get; set; }
+        private readonly string _exportFilePath;
+        private readonly string _exportFileNamePrefix;
+        private readonly DateTime _clientLocalTime;
 
         public ReportExportingService(string exportFilePath, string exportFileNamePrefix, DateTime clientLocalTime) 
         { 
-            this.exportFilePath = exportFilePath;
-            this.exportFileNamePrefix = exportFileNamePrefix;  
-            this.clientLocalTime = clientLocalTime;
+            _exportFilePath = exportFilePath;
+            _exportFileNamePrefix = exportFileNamePrefix;  
+            _clientLocalTime = clientLocalTime;
         }
 
         /// <summary>
@@ -30,10 +30,10 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
         /// <returns></returns>
         public async Task HandleReportingExportAggregated(List<PowerTradeDTO> powerTrades, CancellationToken stoppingToken)
         {
-            var filePath = Path.Combine(exportFilePath, $"{exportFileNamePrefix}_{clientLocalTime:yyyyMMdd_HHmm}.csv");
+            var filePath = Path.Combine(_exportFilePath, $"{_exportFileNamePrefix}_{_clientLocalTime:yyyyMMdd_HHmm}.csv");
             try
             {
-                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportAggregated(clientLocalTime);
+                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportAggregated(_clientLocalTime);
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
                     writer.WriteLine("Local Time,Volume");
@@ -43,7 +43,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             catch (Exception ex)
             {
                 Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
+                    $" - failed at Client Local Time {_clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             await Task.CompletedTask;
         }
@@ -56,10 +56,10 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
         /// <returns></returns>
         public async Task HandleReportingExportNonAggregated(List<PowerTradeDTO> powerTrades, CancellationToken stoppingToken)
         {
-            var filePath = Path.Combine(exportFilePath, $"{exportFileNamePrefix}_{clientLocalTime:yyyyMMdd_HHmm}_NONAGGREGATED.csv");
+            var filePath = Path.Combine(_exportFilePath, $"{_exportFileNamePrefix}_{_clientLocalTime:yyyyMMdd_HHmm}_NONAGGREGATED.csv");
             try
             {
-                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportNonAggregated(clientLocalTime);
+                var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportNonAggregated(_clientLocalTime);
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
                     writer.WriteLine("Local Time,Volume");
@@ -69,7 +69,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             catch (Exception ex)
             {
                 Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
+                    $" - failed at Client Local Time {_clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             await Task.CompletedTask;
         }

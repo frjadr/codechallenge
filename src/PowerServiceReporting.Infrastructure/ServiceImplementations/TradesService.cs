@@ -13,13 +13,13 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
     /// </summary>
     public class TradesService : ITradesService
     {
-        private DateTime clientLocalTime;
-        private IMapper mapper;
+        private readonly DateTime _clientLocalTime;
+        private readonly IMapper _mapper;
 
         public TradesService(IMapper mapper, DateTime clientLocalTime) 
         { 
-            this.clientLocalTime = clientLocalTime;
-            this.mapper = mapper;
+            _clientLocalTime = clientLocalTime;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -33,13 +33,13 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             var powerService = new PowerService();
             try
             {
-                var powerTrades = await powerService.GetTradesAsync(clientLocalTime);         
-                powerTradesDTOs = mapper.MapList<PowerTrade, PowerTradeDTO>(powerTrades.ToList());
+                var powerTrades = await powerService.GetTradesAsync(_clientLocalTime);         
+                powerTradesDTOs = _mapper.MapList<PowerTrade, PowerTradeDTO>(powerTrades.ToList());
             }
             catch (Exception ex)
             {
                 Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(ExportMapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
+                    $" - failed at Client Local Time {_clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
 
             return powerTradesDTOs;

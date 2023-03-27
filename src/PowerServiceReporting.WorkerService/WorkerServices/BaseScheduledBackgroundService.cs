@@ -16,17 +16,17 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
     /// </summary>
     public abstract class BaseScheduledBackgroundService : BackgroundService
     {
-        private readonly CronExpression cronExpression;
-        private readonly TimeZoneInfo timeZoneInfo;
+        private readonly CronExpression _cronExpression;
+        private readonly TimeZoneInfo _timeZoneInfo;
+        private readonly DateTime _clientLocalTime;
         private System.Timers.Timer? timer;
         protected DateTimeOffset? nextOccurence;
-        protected DateTime clientLocalTime;
-
+    
         protected BaseScheduledBackgroundService(CronExpression cronExpression, TimeZoneInfo timeZone, DateTime clientLocalTime)
         {
-            this.cronExpression = cronExpression;
-            this.timeZoneInfo = timeZone;
-            this.clientLocalTime = clientLocalTime;
+            _cronExpression = cronExpression;
+            _timeZoneInfo = timeZone;
+            _clientLocalTime = clientLocalTime;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
         {
             try
             {
-                nextOccurence = cronExpression.GetNextOccurrence(DateTimeOffset.Now, timeZoneInfo);
+                nextOccurence = _cronExpression.GetNextOccurrence(DateTimeOffset.Now, _timeZoneInfo);
                 if (nextOccurence.HasValue)
                 {
                     var delay = nextOccurence.Value - DateTimeOffset.Now;
@@ -62,7 +62,7 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
             catch (Exception ex)
             {
                 Log.Fatal($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
+                    $" - failed at Client Local Time {_clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
 
             await Task.CompletedTask;

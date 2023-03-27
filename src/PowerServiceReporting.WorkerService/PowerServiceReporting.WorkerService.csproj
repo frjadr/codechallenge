@@ -42,7 +42,7 @@
 
   <ItemGroup>
     <Reference Include="PowerService">
-      <HintPath>..\Solution Items\PowerService.dll</HintPath>
+      <HintPath>..\..\Solution Items\PowerService.dll</HintPath>
     </Reference>
   </ItemGroup>
 

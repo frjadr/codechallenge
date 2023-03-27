@@ -11,13 +11,13 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
     /// </summary>
     public class TradesReportingWorkerService : BaseScheduledBackgroundService
     {
-        private ITradesReportingService tradesReportingService;
-        private DateTime clientLocalTime;
+        private readonly ITradesReportingService _tradesReportingService;
+        private readonly DateTime _clientLocalTime;
 
         public TradesReportingWorkerService(IScheduleConfiguration<TradesReportingWorkerService> scheduleConfiguration, ITradesReportingService tradesReportingService) : base(scheduleConfiguration.CronExpression, scheduleConfiguration.TimeZoneInfo, scheduleConfiguration.ClientLocalTime)
         {
-            this.tradesReportingService = tradesReportingService;
-            this.clientLocalTime = scheduleConfiguration.ClientLocalTime;
+            _tradesReportingService = tradesReportingService;
+            _clientLocalTime = scheduleConfiguration.ClientLocalTime;
         }
 
         /// <summary>
@@ -29,17 +29,17 @@ namespace PowerServiceReporting.WorkerService.WorkerServices
         {
             try
             {
-                Log.Information($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}] - executing at Client Local Time {clientLocalTime}");
-                await tradesReportingService.HandleTradesAndExportReport(stoppingToken);
+                Log.Information($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}] - executing at Client Local Time {_clientLocalTime}");
+                await _tradesReportingService.HandleTradesAndExportReport(stoppingToken);
             }
             catch(Exception ex)
             {
                 Log.Fatal($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
+                    $" - failed at Client Local Time {_clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
             finally 
             {
-                Log.Information($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}] - finished at Client Local Time {clientLocalTime}");
+                Log.Information($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}] - finished at Client Local Time {_clientLocalTime}");
             }
         }
 

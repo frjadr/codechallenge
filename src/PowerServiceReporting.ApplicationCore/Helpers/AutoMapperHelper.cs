@@ -8,7 +8,7 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
     public static class AutoMapperHelper
     {
         /// <summary>
-        /// Heplps Autommaper to map two lists via ceneric implementation.
+        /// Heplps Autommaper to map two lists via generic implementation.
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <typeparam name="TDestination"></typeparam>

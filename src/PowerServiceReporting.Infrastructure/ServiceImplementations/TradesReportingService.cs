@@ -10,15 +10,15 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
     /// </summary>
     public class TradesReportingService : ITradesReportingService
     {
-        private ITradesService tradesHandlerService;
-        private IReportExportingService reportExportingService;
-        private DateTime clientLocalTime;
+        private readonly ITradesService _tradesHandlerService;
+        private readonly IReportExportingService _reportExportingService;
+        private readonly DateTime _clientLocalTime;
 
         public TradesReportingService(ITradesService tradesHandlerService, IReportExportingService reportExportingService, DateTime clientLocalTime)
         {
-            this.tradesHandlerService = tradesHandlerService;
-            this.reportExportingService = reportExportingService;
-            this.clientLocalTime = clientLocalTime;
+            _tradesHandlerService = tradesHandlerService;
+            _reportExportingService = reportExportingService;
+            _clientLocalTime = clientLocalTime;
         }
 
         /// <summary>
@@ -30,14 +30,14 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
         {
             try
             {
-                var powerTradeDTOs = await tradesHandlerService.HandleTrades(stoppingToken);
-                await reportExportingService.HandleReportingExportAggregated(powerTradeDTOs, stoppingToken);
+                var powerTradeDTOs = await _tradesHandlerService.HandleTrades(stoppingToken);
+                await _reportExportingService.HandleReportingExportAggregated(powerTradeDTOs, stoppingToken);
                 //await reportExportingService.HandleReportingExportNonAggregated(powerTradeDTOs, stoppingToken);
             }
             catch(Exception ex)
             {
                 Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{this.GetType().Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
-                    $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
+                    $" - failed at Client Local Time {_clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
         }
     }
