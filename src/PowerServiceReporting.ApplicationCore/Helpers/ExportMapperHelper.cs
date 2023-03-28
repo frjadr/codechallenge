@@ -101,11 +101,11 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
         /// <returns></returns>
         public static List<PowerTradeExportDTO> MapPowerTradesToPowerTradesExportNonAggregated(this List<PowerTradeDTO> powerTradeDTOs, DateTime clientLocalTime)
         {
-            var powerTradesExportDTOs = new List<PowerTradeExportDTO>();
+            var powerTradeExportDTOs = new List<PowerTradeExportDTO>();
             try
             {
                 // filters and remaps powertrade data, orders them by local client time with period
-                powerTradesExportDTOs = powerTradeDTOs.SelectMany(powerTrade =>
+                powerTradeExportDTOs = powerTradeDTOs.SelectMany(powerTrade =>
                 {
                     return powerTrade.Periods.Select(period =>
                     {
@@ -124,7 +124,7 @@ namespace PowerServiceReporting.ApplicationCore.Helpers
                 Log.Error($"[{Assembly.GetEntryAssembly().GetName().Name}] => [{typeof(ExportMapperHelper).Name}.{ReflectionHelper.GetActualAsyncMethodName()}]" +
                     $" - failed at Client Local Time {clientLocalTime} with Exception:\n  -Message: {ex.Message}\n  -StackTrace: {ex.StackTrace}");
             }
-            return powerTradesExportDTOs;
+            return powerTradeExportDTOs;
         }
     }
 }

@@ -21,8 +21,7 @@ namespace PowerServiceReporting.UnitTests.Helpers
         [Fact]
         public void MapList_ShouldReturn_CorrectlyMappedList()
         {
-            var randomDay = _clientLocalTime;
-            var sourceList = new List<PowerTradeMock>()
+            var powerTradeMocks = new List<PowerTradeMock>()
             {
                 new PowerTradeMock()
                 {
@@ -45,28 +44,27 @@ namespace PowerServiceReporting.UnitTests.Helpers
                     }
                 },
             };
-            var destinationList = _mapper.MapList<PowerTradeMock, PowerTradeDTO>(sourceList);
+            var mappedPowerTrades = _mapper.MapList<PowerTradeMock, PowerTradeDTO>(powerTradeMocks);
 
-            Assert.Equal(sourceList.Count, destinationList.Count);
+            Assert.Equal(powerTradeMocks.Count, mappedPowerTrades.Count);
 
-            Assert.Equal(sourceList[0].Periods[0].Period, destinationList[0].Periods[0].Period);
-            Assert.Equal(sourceList[0].Periods[0].Volume, destinationList[0].Periods[0].Volume);
+            Assert.Equal(powerTradeMocks[0].Periods[0].Period, mappedPowerTrades[0].Periods[0].Period);
+            Assert.Equal(powerTradeMocks[0].Periods[0].Volume, mappedPowerTrades[0].Periods[0].Volume);
 
-            Assert.Equal(sourceList[0].Periods[1].Period, destinationList[0].Periods[1].Period);
-            Assert.Equal(sourceList[0].Periods[1].Volume, destinationList[0].Periods[1].Volume);
+            Assert.Equal(powerTradeMocks[0].Periods[1].Period, mappedPowerTrades[0].Periods[1].Period);
+            Assert.Equal(powerTradeMocks[0].Periods[1].Volume, mappedPowerTrades[0].Periods[1].Volume);
 
-            Assert.Equal(sourceList[0].Periods[2].Period, destinationList[0].Periods[2].Period);
-            Assert.Equal(sourceList[0].Periods[2].Volume, destinationList[0].Periods[2].Volume);
+            Assert.Equal(powerTradeMocks[0].Periods[2].Period, mappedPowerTrades[0].Periods[2].Period);
+            Assert.Equal(powerTradeMocks[0].Periods[2].Volume, mappedPowerTrades[0].Periods[2].Volume);
 
+            Assert.Equal(powerTradeMocks[1].Periods[0].Period, mappedPowerTrades[1].Periods[0].Period);
+            Assert.Equal(powerTradeMocks[1].Periods[0].Volume, mappedPowerTrades[1].Periods[0].Volume);
 
-            Assert.Equal(sourceList[1].Periods[0].Period, destinationList[1].Periods[0].Period);
-            Assert.Equal(sourceList[1].Periods[0].Volume, destinationList[1].Periods[0].Volume);
+            Assert.Equal(powerTradeMocks[1].Periods[1].Period, mappedPowerTrades[1].Periods[1].Period);
+            Assert.Equal(powerTradeMocks[1].Periods[1].Volume, mappedPowerTrades[1].Periods[1].Volume);
 
-            Assert.Equal(sourceList[1].Periods[1].Period, destinationList[1].Periods[1].Period);
-            Assert.Equal(sourceList[1].Periods[1].Volume, destinationList[1].Periods[1].Volume);
-
-            Assert.Equal(sourceList[1].Periods[2].Period, destinationList[1].Periods[2].Period);
-            Assert.Equal(sourceList[1].Periods[2].Volume, destinationList[1].Periods[2].Volume);
+            Assert.Equal(powerTradeMocks[1].Periods[2].Period, mappedPowerTrades[1].Periods[2].Period);
+            Assert.Equal(powerTradeMocks[1].Periods[2].Volume, mappedPowerTrades[1].Periods[2].Volume);
         }
     }
 

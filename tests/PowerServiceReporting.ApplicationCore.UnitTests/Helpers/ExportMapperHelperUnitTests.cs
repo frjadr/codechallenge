@@ -18,34 +18,34 @@ namespace PowerServiceReporting.UnitTests.Helpers
         [Fact]
         public void MapPowerTradesToPowerTradesExportAggregated_ShouldReturn_AggregatedData_WithCorrectSumAndPositioning()
         {
-            var result = ExportMapperHelper.MapPowerTradesToPowerTradesExportAggregated(powerTrades, _clientLocalTime);
+            var powerTradeExportDTOs = ExportMapperHelper.MapPowerTradesToPowerTradesExportAggregated(powerTrades, _clientLocalTime);
 
-            Assert.Equal("23:00", result[0].Period); // should end with 23:00 period
-            Assert.Equal("00:00", result[1].Period); // should start with 00:00 period
-            Assert.Equal("22:00", result[2].Period); // should start with 22:00 period
+            Assert.Equal("23:00", powerTradeExportDTOs[0].Period); // should end with 23:00 period
+            Assert.Equal("00:00", powerTradeExportDTOs[1].Period); // should start with 00:00 period
+            Assert.Equal("22:00", powerTradeExportDTOs[2].Period); // should start with 22:00 period
 
             // should aggregate volumes for each period
-            Assert.Equal(23.5512 + 12.5532, result[0].Volume);  
-            Assert.Equal(32.1255 + 32.1255, result[1].Volume);
-            Assert.Equal(12.5532 + 23.5512, result[2].Volume);
+            Assert.Equal(23.5512 + 12.5532, powerTradeExportDTOs[0].Volume);  
+            Assert.Equal(32.1255 + 32.1255, powerTradeExportDTOs[1].Volume);
+            Assert.Equal(12.5532 + 23.5512, powerTradeExportDTOs[2].Volume);
         }
 
         [Fact]
         public void MapPowerTradesToPowerTradesExportNonAggregated_ShouldReturn_NonAggregatedData_WithCorrectPositioning()
         {
-            var result = ExportMapperHelper.MapPowerTradesToPowerTradesExportNonAggregated(powerTrades, _clientLocalTime);
+            var powerTradeExportDTOs = ExportMapperHelper.MapPowerTradesToPowerTradesExportNonAggregated(powerTrades, _clientLocalTime);
 
-            Assert.Equal("23:00", result[0].Period); // should end with 23:00 period
-            Assert.Equal("23:00", result[1].Period); // should end with 23:00 period
-            Assert.Equal("00:00", result[2].Period); // should start with 00:00 period
-            Assert.Equal("00:00", result[3].Period); // should start with 00:00 period
-            Assert.Equal("22:00", result[4].Period); // should start with 22:00 period
-            Assert.Equal("22:00", result[5].Period); // should start with 22:00 period
+            Assert.Equal("23:00", powerTradeExportDTOs[0].Period); // should end with 23:00 period
+            Assert.Equal("23:00", powerTradeExportDTOs[1].Period); // should end with 23:00 period
+            Assert.Equal("00:00", powerTradeExportDTOs[2].Period); // should start with 00:00 period
+            Assert.Equal("00:00", powerTradeExportDTOs[3].Period); // should start with 00:00 period
+            Assert.Equal("22:00", powerTradeExportDTOs[4].Period); // should start with 22:00 period
+            Assert.Equal("22:00", powerTradeExportDTOs[5].Period); // should start with 22:00 period
         }
 
         private List<PowerTradeDTO> InitializePowerTradeDTOs(DateTime clientLocalTime)
         {
-            var powerTrades = new List<PowerTradeDTO>
+            var powerTradeDTOs = new List<PowerTradeDTO>
             {
                 new PowerTradeDTO
                 {
@@ -69,7 +69,7 @@ namespace PowerServiceReporting.UnitTests.Helpers
                 }
             };
 
-            return powerTrades;
+            return powerTradeDTOs;
         }
     }
 }

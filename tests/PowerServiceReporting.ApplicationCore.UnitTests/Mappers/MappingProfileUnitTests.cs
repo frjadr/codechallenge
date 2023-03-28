@@ -5,12 +5,12 @@ using Services;
 
 namespace PowerServiceReporting.UnitTests.Mappers
 {
-    public class MappingProfileUnitTest
+    public class MappingProfileUnitTests
     {
         private readonly IConfigurationProvider _configuration;
         private readonly IMapper _mapper;
 
-        public MappingProfileUnitTest()
+        public MappingProfileUnitTests()
         {
             _configuration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile(default)));
             _mapper = _configuration.CreateMapper();
