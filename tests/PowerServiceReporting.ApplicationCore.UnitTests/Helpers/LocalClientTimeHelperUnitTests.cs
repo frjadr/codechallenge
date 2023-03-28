@@ -10,8 +10,8 @@ namespace PowerServiceReporting.UnitTests.Helpers
         public void LocalClientTime_CorrectTime_ForTimezoneId_FromAppsettingsDev()
         {
             Environment.SetEnvironmentVariable("APP_ENV", "dev");
-            TimeComparisonResult timeComparisonResult = GetLocalClientTimeAndComparisonTime();
 
+            TimeComparisonResult timeComparisonResult = GetLocalClientTimeAndExpectedTime();
             var tolerance = TimeSpan.FromSeconds(1);
             var comparisonResult = DateTime.Compare(timeComparisonResult.ExpectedTime, timeComparisonResult.LocalClientTime);
 
@@ -23,8 +23,8 @@ namespace PowerServiceReporting.UnitTests.Helpers
         public void LocalClientTime_CorrectTime_ForTimezoneId_FromAppsettingsRelease()
         {
             Environment.SetEnvironmentVariable("APP_ENV", "release");
-            TimeComparisonResult timeComparisonResult = GetLocalClientTimeAndComparisonTime();
 
+            TimeComparisonResult timeComparisonResult = GetLocalClientTimeAndExpectedTime();
             var tolerance = TimeSpan.FromSeconds(1);
             var comparisonResult = DateTime.Compare(timeComparisonResult.ExpectedTime, timeComparisonResult.LocalClientTime);
 
@@ -36,8 +36,8 @@ namespace PowerServiceReporting.UnitTests.Helpers
         public void LocalClientTime_CorrectTime_ForTimezoneId_FromAppsettingsProd()
         {
             Environment.SetEnvironmentVariable("APP_ENV", "prod");
-            TimeComparisonResult timeComparisonResult = GetLocalClientTimeAndComparisonTime();
-
+            
+            TimeComparisonResult timeComparisonResult = GetLocalClientTimeAndExpectedTime();
             var tolerance = TimeSpan.FromSeconds(1);
             var comparisonResult = DateTime.Compare(timeComparisonResult.ExpectedTime, timeComparisonResult.LocalClientTime);
 
@@ -45,17 +45,11 @@ namespace PowerServiceReporting.UnitTests.Helpers
             Assert.True(Math.Abs((timeComparisonResult.ExpectedTime - timeComparisonResult.LocalClientTime).TotalSeconds) < tolerance.TotalSeconds);
         }
 
-        private TimeComparisonResult GetLocalClientTimeAndComparisonTime()
+        private TimeComparisonResult GetLocalClientTimeAndExpectedTime()
         {
-            var env = Environment.GetEnvironmentVariable("APP_ENV");
-            var hostingContext = new HostBuilderContext(new Dictionary<object, object>());
-            var configBuilder = new ConfigurationBuilder().AddJsonFile($"appsettings.{env}.json", optional: false, reloadOnChange: false);
-            hostingContext.Configuration = configBuilder.Build();
-
-            var section = hostingContext.Configuration.GetSection("TradesReportingWorkerServiceSettings");
-            var timeZoneId = section.GetValue<string>("TimeZoneId");
-
+            var timeZoneId = GetTimeZoneIdFromAppsettings();
             var localClientTime = timeZoneId.LocalClientTime();
+
             var expectedTimeWithoutSeconds = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time")).AddSeconds(-DateTime.UtcNow.Second);
             var localClientTimeWithoutSeconds = localClientTime.AddSeconds(-localClientTime.Second);
             
@@ -64,6 +58,17 @@ namespace PowerServiceReporting.UnitTests.Helpers
                 ExpectedTime = expectedTimeWithoutSeconds,
                 LocalClientTime = localClientTimeWithoutSeconds
             };
+        }
+
+        private string GetTimeZoneIdFromAppsettings()
+        {
+            var env = Environment.GetEnvironmentVariable("APP_ENV");
+            var hostingContext = new HostBuilderContext(new Dictionary<object, object>());
+            var configBuilder = new ConfigurationBuilder().AddJsonFile($"appsettings.{env}.json", optional: false, reloadOnChange: false);
+            hostingContext.Configuration = configBuilder.Build();
+            var section = hostingContext.Configuration.GetSection("TradesReportingWorkerServiceSettings");
+
+            return section.GetValue<string>("TimeZoneId");
         }
     }
 
