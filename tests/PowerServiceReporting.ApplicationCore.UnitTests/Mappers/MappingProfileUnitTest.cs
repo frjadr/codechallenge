@@ -2,9 +2,8 @@ using AutoMapper;
 using PowerServiceReporting.ApplicationCore.DTOs;
 using PowerServiceReporting.ApplicationCore.Mappers;
 using Services;
-using System.Runtime.Serialization;
 
-namespace PowerServiceReporting.ApplicationCore.UnitTests.Mappers
+namespace PowerServiceReporting.UnitTests.Mappers
 {
     public class MappingProfileUnitTest
     {

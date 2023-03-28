@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5EE298D3-5A0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{138E79A5-6D4A-4F73-9B74-0536C615F68C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerServiceReporting.ApplicationCore.UnitTests", "tests\PowerServiceReporting.ApplicationCore.UnitTests\PowerServiceReporting.ApplicationCore.UnitTests.csproj", "{4B6ADC71-725D-4147-B1EB-F22803A8D8A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerServiceReporting.UnitTests", "tests\PowerServiceReporting.ApplicationCore.UnitTests\PowerServiceReporting.UnitTests.csproj", "{4B6ADC71-725D-4147-B1EB-F22803A8D8A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

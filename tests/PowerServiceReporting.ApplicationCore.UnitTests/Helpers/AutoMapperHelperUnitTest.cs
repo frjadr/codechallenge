@@ -2,7 +2,7 @@
 using PowerServiceReporting.ApplicationCore.DTOs;
 using PowerServiceReporting.ApplicationCore.Helpers;
 
-namespace PowerServiceReporting.ApplicationCore.UnitTests.Helpers
+namespace PowerServiceReporting.UnitTests.Helpers
 {
     public class AutoMapperHelperUnitTest 
     { 

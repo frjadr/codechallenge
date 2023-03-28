@@ -1,14 +1,7 @@
-﻿using AutoMapper;
-using PowerServiceReporting.ApplicationCore.DTOs;
+﻿using PowerServiceReporting.ApplicationCore.DTOs;
 using PowerServiceReporting.ApplicationCore.Helpers;
-using Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PowerServiceReporting.ApplicationCore.UnitTests.Helpers
+namespace PowerServiceReporting.UnitTests.Helpers
 {
     public class ExportMapperHelperUnitTests
     {
