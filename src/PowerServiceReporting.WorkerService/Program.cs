@@ -39,7 +39,7 @@ try
         #endregion
 
         // Clients local DateTime
-        var clientLocalTime = WorkerServiceConfiguration.LocalClientTime(tradesReportingWorkerServiceSettings.TimeZoneId);
+        var clientLocalTime = tradesReportingWorkerServiceSettings.TimeZoneId.LocalClientTime();
 
         #region AutoMapper
         var mappingConfig = new MapperConfiguration(mc =>

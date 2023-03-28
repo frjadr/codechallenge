@@ -4,26 +4,29 @@ using PowerServiceReporting.ApplicationCore.Helpers;
 
 namespace PowerServiceReporting.ApplicationCore.UnitTests.Helpers
 {
-    public class AutoMapperHelperUnitTest
-    {
+    public class AutoMapperHelperUnitTest 
+    { 
         private readonly IConfigurationProvider _configuration;
         private readonly IMapper _mapper;
+        private readonly DateTime _clientLocalTime;
+        private const string TimeZoneId = "GMT Standard Time";
 
         public AutoMapperHelperUnitTest()
         {
-            _configuration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfileMock(default)));
-            _mapper = _configuration.CreateMapper();
+            _clientLocalTime = TimeZoneId.LocalClientTime();
+            _configuration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfileMock(_clientLocalTime)));
+            _mapper = _configuration.CreateMapper();     
         }
 
         [Fact]
         public void MapList_ShouldReturn_CorrectlyMappedList()
         {
-            var randomDay = this.RandomDay();
+            var randomDay = _clientLocalTime;
             var sourceList = new List<PowerTradeMock>()
             {
                 new PowerTradeMock()
                 {
-                    Date = randomDay,
+                    Date = _clientLocalTime,
                     Periods = new PowerPeriodMock[] 
                     {  
                         new PowerPeriodMock() { Period = 0, Volume = 23.5512 },
@@ -33,7 +36,7 @@ namespace PowerServiceReporting.ApplicationCore.UnitTests.Helpers
                 },
                 new PowerTradeMock()
                 {
-                    Date = randomDay,
+                    Date = _clientLocalTime,
                     Periods = new PowerPeriodMock[]
                     {
                         new PowerPeriodMock() { Period = 0, Volume = 12.5532 },
@@ -65,14 +68,6 @@ namespace PowerServiceReporting.ApplicationCore.UnitTests.Helpers
             Assert.Equal(sourceList[1].Periods[2].Period, destinationList[1].Periods[2].Period);
             Assert.Equal(sourceList[1].Periods[2].Volume, destinationList[1].Periods[2].Volume);
         }
-
-        private Func<DateTime> RandomDay = () =>
-        {
-            var gen = new Random();
-            var start = new DateTime(1995, 1, 1);
-            int range = (DateTime.Today - start).Days;
-            return start.AddDays(gen.Next(range));
-        };
     }
 
     internal class MappingProfileMock : Profile
@@ -87,7 +82,7 @@ namespace PowerServiceReporting.ApplicationCore.UnitTests.Helpers
     internal class PowerTradeMock
     {
         public DateTime Date { get; set; }
-        public PowerPeriodMock[] Periods { get; set; }
+        public PowerPeriodMock[] Periods { get; set; } = new PowerPeriodMock[0];
     }
 
     internal class PowerPeriodMock

@@ -47,29 +47,5 @@ namespace PowerServiceReporting.WorkerService.Configurations
 
             return services;
         }
-
-        /// <summary>
-        /// Gets clients Local DateTime by timezoneId.
-        /// </summary>
-        /// <param name="timeZoneId"></param>
-        /// <returns></returns>
-        public static DateTime LocalClientTime(string timeZoneId)
-        {
-            Console.WriteLine($"Server time: {DateTime.Now}");
-
-            // Get the current time in server time zone
-            DateTime serverUTCTime = DateTime.UtcNow;
-            Console.WriteLine($"Server UTC time: {serverUTCTime}");
-
-            // Define the client time zone
-            TimeZoneInfo clientTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
-            Console.WriteLine($"Client Zone: {clientTimeZone}");
-
-            // Convert the server time to client local time
-            DateTime clientTime = TimeZoneInfo.ConvertTimeFromUtc(serverUTCTime, clientTimeZone);
-            Console.WriteLine($"Client local time: {clientTime}");
-
-            return clientTime;
-        }
     }
 }
