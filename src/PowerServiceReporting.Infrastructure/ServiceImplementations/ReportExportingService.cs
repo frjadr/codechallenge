@@ -2,6 +2,7 @@
 using PowerServiceReporting.ApplicationCore.Helpers;
 using PowerServiceReporting.ApplicationCore.Interfaces;
 using Serilog;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace PowerServiceReporting.Infrastructure.ServiceImplementations
@@ -34,11 +35,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             try
             {
                 var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportAggregated(_clientLocalTime);
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    writer.WriteLine("Local Time,Volume");
-                    powerTradesExport.ForEach(data => writer.WriteLine($"{data.Period},{data.Volume}"));
-                }
+                powerTradesExport.ExportPowerTradesToCSV(filePath);
             }
             catch (Exception ex)
             {
