@@ -31,11 +31,11 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
         /// <returns></returns>
         public async Task HandleReportingExportAggregated(List<PowerTradeDTO> powerTrades, CancellationToken stoppingToken)
         {
-            var filePath = Path.Combine(_exportFilePath, $"{_exportFileNamePrefix}_{_clientLocalTime:yyyyMMdd_HHmm}.csv");
             try
             {
+                var fullExportFilePath = _exportFilePath.HandleFolderAndFilePathAggregated(_exportFileNamePrefix, _clientLocalTime);
                 var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportAggregated(_clientLocalTime);
-                powerTradesExport.ExportPowerTradesToCSV(filePath);
+                powerTradesExport.ExportPowerTradesToCSV(fullExportFilePath);
             }
             catch (Exception ex)
             {
@@ -53,15 +53,11 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
         /// <returns></returns>
         public async Task HandleReportingExportNonAggregated(List<PowerTradeDTO> powerTrades, CancellationToken stoppingToken)
         {
-            var filePath = Path.Combine(_exportFilePath, $"{_exportFileNamePrefix}_{_clientLocalTime:yyyyMMdd_HHmm}_NONAGGREGATED.csv");
             try
             {
+                var fullExportFilePath = _exportFilePath.HandleFolderAndFilePathNonAggregated(_exportFileNamePrefix, _clientLocalTime);
                 var powerTradesExport = powerTrades.MapPowerTradesToPowerTradesExportNonAggregated(_clientLocalTime);
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    writer.WriteLine("Local Time,Volume");
-                    powerTradesExport.ForEach(data => writer.WriteLine($"{data.Period},{data.Volume}"));
-                }
+                powerTradesExport.ExportPowerTradesToCSV(fullExportFilePath);
             }
             catch (Exception ex)
             {

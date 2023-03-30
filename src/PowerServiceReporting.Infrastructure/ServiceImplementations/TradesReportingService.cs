@@ -32,7 +32,7 @@ namespace PowerServiceReporting.Infrastructure.ServiceImplementations
             {
                 var powerTradeDTOs = await _tradesHandlerService.HandleTrades(stoppingToken);
                 await _reportExportingService.HandleReportingExportAggregated(powerTradeDTOs, stoppingToken);
-                //await reportExportingService.HandleReportingExportNonAggregated(powerTradeDTOs, stoppingToken);
+                //await _reportExportingService.HandleReportingExportNonAggregated(powerTradeDTOs, stoppingToken);
             }
             catch(Exception ex)
             {

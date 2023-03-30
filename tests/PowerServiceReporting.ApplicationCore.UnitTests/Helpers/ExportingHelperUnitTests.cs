@@ -1,15 +1,37 @@
 ﻿using PowerServiceReporting.ApplicationCore.DTOs;
 using PowerServiceReporting.ApplicationCore.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerServiceReporting.UnitTests.Helpers
 {
     public class ExportingHelperUnitTests
     {
+        [Fact]
+        public void HandleFolderAndFilePath_FolderExists_And_ReturnsCorrectFilePath_Aggregated()
+        {
+            string expectedExportFilePath = @"C:\PowerReportFolder\PowerPosition_20230329_0830.csv";
+            string exportFilePath = @"C:\PowerReportFolder\";
+            string exportFileNamePrefix = "PowerPosition";
+            DateTime clientLocalTime = new DateTime(2023, 03, 29, 08, 30, 0);
+
+            string actualFilePath = exportFilePath.HandleFolderAndFilePathAggregated(exportFileNamePrefix, clientLocalTime);
+
+            Assert.True(Directory.Exists(exportFilePath));
+            Assert.Equal(expectedExportFilePath, actualFilePath);
+        }
+
+        [Fact]
+        public void HandleFolderAndFilePath_FolderExists_And_ReturnsCorrectFilePath_NonAggregated()
+        {
+            string expectedExportFilePath = @"C:\PowerReportFolder\PowerPosition_20230329_0830_NONAGGREGATED.csv";
+            string exportFilePath = @"C:\PowerReportFolder\";
+            string exportFileNamePrefix = "PowerPosition";
+            DateTime clientLocalTime = new DateTime(2023, 03, 29, 08, 30, 0);
+
+            string actualFilePath = exportFilePath.HandleFolderAndFilePathNonAggregated(exportFileNamePrefix, clientLocalTime);
+
+            Assert.True(Directory.Exists(exportFilePath));
+            Assert.Equal(expectedExportFilePath, actualFilePath);
+        }
 
         [Fact]
         public void ExportPowerTradesToCSV_ShouldExport_PowerTradesToCSVFile()
@@ -20,7 +42,7 @@ namespace PowerServiceReporting.UnitTests.Helpers
                 new PowerTradeExportDTO { Period = "00:00", Volume = 112.32 },
                 new PowerTradeExportDTO { Period = "01:00", Volume = 231.13 }
             };
-            string filePath = "C:\\PowerReportFolder\\PowerPosition_20230329_0830.csv";
+            string filePath =  @"C:\PowerReportFolder\PowerPosition_20230329_0830.csv";
 
             powerTradeExportDTOs.ExportPowerTradesToCSV(filePath);
 
